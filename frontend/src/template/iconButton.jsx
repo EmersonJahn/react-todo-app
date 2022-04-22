@@ -1,14 +1,11 @@
 import React from "react";
 
-export default props => {
-    if (props.hide) {
-        return null;
+import If from './if'
 
-    } else {
-        return (
-            <button className={'btn btn-' + props.style} onClick={props.onClick}>
-                <i className={'fa fa-' + props.icon}></i>
-            </button>
-        );
-    }
-}
+export default props => (
+    <If condition={!props.hide}>
+        <button className={'btn btn-' + props.style} onClick={props.onClick}>
+            <i className={'fa fa-' + props.icon}></i>
+        </button>
+    </If>
+);
