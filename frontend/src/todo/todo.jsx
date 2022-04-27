@@ -18,6 +18,7 @@ export default class Todo extends Component {
         };
 
         this.handleAdd           = this.handleAdd.bind(this);
+        this.handleSearch        = this.handleSearch.bind(this);
         this.handleChange        = this.handleChange.bind(this);
         this.handleDelete        = this.handleDelete.bind(this);
         this.handleMarkAsDone    = this.handleMarkAsDone.bind(this);
@@ -27,19 +28,26 @@ export default class Todo extends Component {
         this.refresh();
     }
 
-    refresh() {
-        axios.get(`${URL}?sort=createdAt`).then(
+    refresh(description = '') {
+        const search = description ? `&description__regex=/${description}/` : '';
+
+        axios.get(`${URL}?sort=createdAt${search}`).then(
             // resp => console.log(resp.data)
-            resp => this.setState({ ...this.state, description: '', list: resp.data })
+            resp => this.setState({ ...this.state, description, list: resp.data })
             
         )
     }
 
     handleAdd() {
         const description = this.state.description;
+
         axios.post(URL, { description }).then(
             resp => this.refresh()
         );
+    }
+
+    handleSearch() {
+        this.refresh(this.state.description);
     }
 
     handleChange(e) {
@@ -48,7 +56,7 @@ export default class Todo extends Component {
 
     handleDelete(todo) {
         axios.delete(`${URL}/${todo._id}`).then(
-            resp => this.refresh()
+            resp => this.refresh(this.state.description)
         );
     }
 
@@ -62,7 +70,7 @@ export default class Todo extends Component {
 
     updateDone(todo, isDone) {
         axios.put(`${URL}/${todo._id}`, { ...todo, done: isDone }).then(
-            resp => this.refresh()
+            resp => this.refresh(this.state.description)
         );
     }
 
@@ -74,6 +82,7 @@ export default class Todo extends Component {
                     description={this.state.description} 
                     handleAdd={this.handleAdd} 
                     handleChange={this.handleChange} 
+                    handleSearch={this.handleSearch}
                 />
                 <TodoList 
                     list={this.state.list} 
