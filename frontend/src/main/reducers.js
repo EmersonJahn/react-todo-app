@@ -7,12 +7,12 @@ const rootReducer = combineReducers({
             {
                 _id: 1,
                 description: 'Pagar fatura do cartão',
-                document: true
+                done: true
             },
             {
                 _id: 2,
                 description: 'Reunião com a equipe',
-                document: false
+                done: false
             },
         ]
     })
