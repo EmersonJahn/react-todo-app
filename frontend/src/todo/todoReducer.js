@@ -1,17 +1,6 @@
 const initialState = {
-    description: 'Ler livro',
-    list: [
-        {
-            _id: 1,
-            description: 'Pagar fatura do cartão',
-            done: true
-        },
-        {
-            _id: 2,
-            description: 'Reunião com a equipe',
-            done: false
-        },
-    ]
+    description: '',
+    list: []
 }
 
 export default (state = initialState, action) => {
