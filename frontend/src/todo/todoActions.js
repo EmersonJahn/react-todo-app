@@ -10,10 +10,12 @@ export const setDescription = event => ({
 });
 
 export const todoSearch = () => {
-    const request = Axios.get(`${URL}?sort=-createdAt`)
-    return {
-        type: TODO_SEARCH,
-        payload: request
+    return (dispatch, getState) => {
+        const description = getState().todo.description;
+        const search      = description ? `&description__regex=/${description}/` : '';
+        
+        Axios.get(`${URL}?sort=-createdAt${search}`)
+            .then(resp => dispatch({ type: TODO_SEARCH, payload: resp.data }));
     }
 }
 
@@ -23,11 +25,6 @@ export const todoAdd = (description) => {
             .then(resp => dispatch(todoClear()))
             .then(resp => dispatch(todoSearch()))
     }
-    // const request = Axios.post(URL, { description })
-    // return [
-    //     { type: 'TODO_ADD', payload: request },
-    //     todoSearch()
-    // ]
 }
 
 export const todoDelete = (todo) => {
@@ -53,5 +50,8 @@ export const markTodoAsPending = (todo) => {
 }
 
 export const todoClear = () => {
-    return { type: TODO_CLEAR }
+    return [
+        { type: TODO_CLEAR }, 
+        todoSearch()
+    ]
 }
