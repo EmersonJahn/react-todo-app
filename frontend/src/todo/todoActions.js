@@ -14,3 +14,11 @@ export const todoSearch = () => {
         payload: request
     }
 }
+
+export const todoAdd = (description) => {
+    const request = Axios.post(URL, { description })
+    return {
+        type: 'TODO_ADD',
+        payload: request
+    }
+}
