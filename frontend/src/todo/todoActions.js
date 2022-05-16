@@ -16,9 +16,14 @@ export const todoSearch = () => {
 }
 
 export const todoAdd = (description) => {
-    const request = Axios.post(URL, { description })
-    return [
-        { type: 'TODO_ADD', payload: request },
-        todoSearch()
-    ]
+    return dispatch => {
+        Axios.post(URL, { description })
+            .then(resp => dispatch({ type: 'TODO_ADD', payload: resp.data }))
+            .then(resp => dispatch(todoSearch()))
+    }
+    // const request = Axios.post(URL, { description })
+    // return [
+    //     { type: 'TODO_ADD', payload: request },
+    //     todoSearch()
+    // ]
 }
