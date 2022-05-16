@@ -28,6 +28,14 @@ export const todoAdd = (description) => {
     // ]
 }
 
+export const todoDelete = (todo) => {
+    return dispatch => {
+        Axios.delete(`${URL}/${todo._id}`)
+            .then(resp => dispatch(todoSearch()))
+    }
+}
+
+
 export const markTodoAsDone = (todo) => {
     return dispatch => {
         Axios.put(`${URL}/${todo._id}`, { ...todo, done: true })
