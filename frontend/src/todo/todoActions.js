@@ -27,3 +27,17 @@ export const todoAdd = (description) => {
     //     todoSearch()
     // ]
 }
+
+export const markTodoAsDone = (todo) => {
+    return dispatch => {
+        Axios.put(`${URL}/${todo._id}`, { ...todo, done: true })
+            .then(resp => dispatch(todoSearch()))
+    }
+}
+
+export const markTodoAsPending = (todo) => {
+    return dispatch => {
+        Axios.put(`${URL}/${todo._id}`, { ...todo, done: false })
+            .then(resp => dispatch(todoSearch()))
+    }
+}
