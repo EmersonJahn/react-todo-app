@@ -8,7 +8,7 @@ export const setDescription = event => ({
 });
 
 export const todoSearch = () => {
-    const request = Axios.get(`${URL}?sort=createdAt`)
+    const request = Axios.get(`${URL}?sort=-createdAt`)
     return {
         type: 'TODO_SEARCH',
         payload: request
@@ -17,8 +17,8 @@ export const todoSearch = () => {
 
 export const todoAdd = (description) => {
     const request = Axios.post(URL, { description })
-    return {
-        type: 'TODO_ADD',
-        payload: request
-    }
+    return [
+        { type: 'TODO_ADD', payload: request },
+        todoSearch()
+    ]
 }
