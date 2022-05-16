@@ -18,7 +18,7 @@ export const todoSearch = () => {
 export const todoAdd = (description) => {
     return dispatch => {
         Axios.post(URL, { description })
-            .then(resp => dispatch({ type: 'TODO_ADD', payload: resp.data }))
+            .then(resp => dispatch(todoClear()))
             .then(resp => dispatch(todoSearch()))
     }
     // const request = Axios.post(URL, { description })
@@ -48,4 +48,8 @@ export const markTodoAsPending = (todo) => {
         Axios.put(`${URL}/${todo._id}`, { ...todo, done: false })
             .then(resp => dispatch(todoSearch()))
     }
+}
+
+export const todoClear = () => {
+    return { type: 'TODO_CLEAR' }
 }
